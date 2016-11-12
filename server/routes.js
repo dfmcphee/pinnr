@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const index = require('./routes/index');
-const message = require('./routes/message');
+const groups = require('./routes/groups');
 
 const routes = function() {
-  router.get('/', index);
-  router.get('/message.json', message);
+  router.get('/groups.json', groups);
+  router.get('*', index);
 
   return router;
 };

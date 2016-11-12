@@ -1,26 +1,17 @@
 import React from 'react';
+import Group from '../group/group.js';
 
 export default class Hello extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      message: 'Loading...'
-    };
-
-    this.fetchMessage();
-  }
-
-  fetchMessage() {
-    fetch('/message.json')
-      .then((response) => response.json())
-      .then((data) => this.setState({ message: data.message }));
   }
 
   render() {
     return (
       <div className="hello">
-        <h1 className="hello__message">{this.state.message}</h1>
+        <label htmlFor="group-name">Group name</label>
+        <input type="text" id="group-name" />
+        <button>Create group</button>
       </div>
     );
   }
