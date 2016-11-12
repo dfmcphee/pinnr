@@ -1,5 +1,5 @@
 const Index = function(req, res) {
-  const isProduction = false; //(process.env.NODE_ENV === 'production');
+  const isProduction = (process.env.NODE_ENV === 'production');
   const script = isProduction ? '/main.min.js' : '/main.js';
   const styles = isProduction ? '/main.min.css' : false;
 

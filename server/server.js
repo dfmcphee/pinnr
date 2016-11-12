@@ -4,7 +4,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const port = process.env.PORT ? process.env.PORT : 3000;
 const app = express();
 
-if (true || !isProduction) {
+if (!isProduction) {
   const webpack = require('webpack');
   const webpackMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -27,7 +27,7 @@ if (true || !isProduction) {
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
 } else {
-  app.use(express.static(__dirname + '/dist'));
+  app.use(express.static(__dirname + '/../dist'));
 }
 
 app.set('view engine', 'ejs');
