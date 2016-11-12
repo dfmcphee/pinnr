@@ -2,10 +2,10 @@
   "name": "blackmirror",
   "version": "0.0.1",
   "description": "Node knockout 2016",
-  "main": "server.js",
+  "main": "server/server.js",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/rumblex/nodeknockout2016-blackmirror.git"
+    "url": "https://github.com/rumblex/nodeknockout2016-blackmirror.git",
+    "type": "git"
   },
   "keywords": [
     "express",
