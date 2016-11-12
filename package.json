@@ -24,7 +24,7 @@
     "eslint": "eslint ."
   },
   "engines": {
-    "node": "6.4.0"
+    "nodejs": "6.7.0"
   },
   "dependencies": {
     "babel-cli": "^6.7.5",
