@@ -2,7 +2,7 @@ import React from 'react';
 import { browserHistory } from 'react-router'
 import Group from '../group/group.js';
 import GroupStore from '../../stores/group-store';
-import { Label, Form, Input, Button } from 'semantic-ui-react';
+import { Label, Form, Input, Button, Container, Header } from 'semantic-ui-react';
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -51,27 +51,32 @@ export default class Index extends React.Component {
 
   render() {
     return (
-      <div>
-        <Form>
-          <Form.Field error={this.state.titleError}>
-            <label>Group title</label>
-            <Input value={this.state.title}
-              onBlur={(event) => this.blurTitle(event)}
-              onChange={(event) => this.changeTitle(event)} />
-          </Form.Field>
-          <Form.Field error={this.state.hashtagError}>
-            <label>Hashtag</label>
-            <Input labelPosition='left'>
-              <Label basic>#</Label>
-              <input type='text'
-                value={this.state.hashtag}
-                onChange={(event) => this.changeHashtag(event)}
-                onBlur={(event) => this.blurHashtag(event)} />
-            </Input>
-          </Form.Field>
-          <Button type="button" onClick={() => this.createGroup()}>Create</Button>
+      <Container text>
+        <Header as="h1">Create a new group</Header>
+        <Form size="large">
+          <Form.Group widths='equal'>
+            <Form.Field error={this.state.titleError}>
+              <label>Group title</label>
+              <Input value={this.state.title}
+                onBlur={(event) => this.blurTitle(event)}
+                onChange={(event) => this.changeTitle(event)} />
+            </Form.Field>
+            <Form.Field error={this.state.hashtagError}>
+              <label>Hashtag</label>
+              <Input labelPosition='left'>
+                <Label basic>#</Label>
+                <input type='text'
+                  value={this.state.hashtag}
+                  onChange={(event) => this.changeHashtag(event)}
+                  onBlur={(event) => this.blurHashtag(event)} />
+              </Input>
+            </Form.Field>
+          </Form.Group>
+          <Button primary size="large" type="button" floated="right" onClick={() => this.createGroup()}>
+              Create
+          </Button>
         </Form>
-      </div>
+      </Container>
     );
   }
 }
