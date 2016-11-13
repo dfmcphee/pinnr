@@ -1,4 +1,4 @@
-var db = require('../models/db');
+const db = require('../models/db');
 
 const Posts = {
   index: function(req, res) {

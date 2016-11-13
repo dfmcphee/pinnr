@@ -1,4 +1,5 @@
 var db = require('../models/db');
+var Twitter = require('../twitter');
 
 const Groups = {
   index: function(req, res) {
@@ -15,6 +16,7 @@ const Groups = {
       title: req.body.group.title,
       hashtag: req.body.group.hashtag
     }).then(function(group) {
+      Twitter.startStream(group);
       res.send({ group });
     });
   }
