@@ -16,12 +16,13 @@ module.exports = function (sequelize, DataTypes){
     hashtag: {
       type: DataTypes.STRING,
       allowNull: false,
-    }, {
-      classMethods: {
-        associate: function (models) {
-          Group.hasMany(models.Post);
-          Group.hasMany(models.Member);
-        }
+    }
+  },
+  {
+    classMethods: {
+      associate: function(models) {
+        Group.hasMany(models.Post);
+        Group.hasMany(models.Member);
       }
     }
   });

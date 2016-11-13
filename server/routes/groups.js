@@ -1,3 +1,5 @@
+var db = require('../models/db');
+
 const Groups = {
   index: function(req, res) {
     res.send({groups: [

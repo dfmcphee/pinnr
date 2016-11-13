@@ -16,12 +16,12 @@ module.exports = function (sequelize, DataTypes){
     content: DataTypes.TEXT,
     attachment: DataTypes.STRING,
     date: DataTypes.DATE,
-    },{
-     classMethods: {
-        associate: function (models) {
-          Post.belongsTo(models.User);
-          Post.belongsTo(models.Group);
-        }
+  },
+  {
+   classMethods: {
+      associate: function (models) {
+        Post.belongsTo(models.User);
+        Post.belongsTo(models.Group);
       }
     }
   });

@@ -3,12 +3,12 @@ module.exports = function (sequelize, DataTypes){
     owner: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-    }, {
-      classMethods: {
-        associate: function (models) {
-          Member.belongsTo(models.User);
-          Member.belongsTo(models.Group);
-        }
+    },
+  }, {
+    classMethods: {
+      associate: function (models) {
+        Member.belongsTo(models.User);
+        Member.belongsTo(models.Group);
       }
     }
   });

@@ -18,12 +18,12 @@ module.exports = function (sequelize, DataTypes){
       allowNull: false,
     },
     date: DataTypes.DATE,
-    },{
-     classMethods: {
-        associate: function (models) {
-          User.hasMany(models.Member);
-          User.hasMany(models.Post);
-        }
+  },
+  {
+   classMethods: {
+      associate: function (models) {
+        User.hasMany(models.Member);
+        User.hasMany(models.Post);
       }
     }
   });
