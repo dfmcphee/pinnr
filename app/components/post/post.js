@@ -1,9 +1,19 @@
 import React from 'react';
-import { Card, Button } from 'semantic-ui-react';
+import { Image, Card, Button } from 'semantic-ui-react';
 
 export default class Post extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  image() {
+    if (this.props.post.attachment === '') {
+      return;
+    }
+
+    return (
+      <Image src={this.props.post.attachment} />
+    );
   }
 
   render() {
@@ -12,6 +22,7 @@ export default class Post extends React.Component {
         <Card.Content>
           <Card.Header>{this.props.post.username}</Card.Header>
           <Card.Meta>{this.props.post.service}</Card.Meta>
+          {this.image()}
           <Card.Description>
             {this.props.post.content}
           </Card.Description>
