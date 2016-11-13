@@ -37,9 +37,8 @@ if (!isProduction) {
 app.set('view engine', 'ejs');
 app.set('views', './app/views');
 
-app.use(bodyParser.json({
-  limit: '50mb'
-}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb'}));
 
 app.use('/', routes);
 
