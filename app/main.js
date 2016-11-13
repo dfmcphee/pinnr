@@ -11,7 +11,8 @@ render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
-      <Route path="groups" component={Groups} />
+      <Route path="/add" component={Index} />
+      <Route path="/groups" component={Groups} />
       <Route path="/group/:groupId" component={Group}/>
       <Route path="*" component={NoMatch}/>
     </Route>
