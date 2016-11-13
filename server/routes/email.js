@@ -4,7 +4,11 @@ const groupRegEx = /(.*)@.*/;
 const Email = function(req, res) {
   const groupUrl = req.body.To.match(groupRegEx);
 
-  db.Group.find({ url: groupUrl }).then(function(group) {
+  db.Group.find({
+    where: {
+      url: groupUrl
+    }
+  }).then(function(group) {
     if (!group) {
       return;
     }

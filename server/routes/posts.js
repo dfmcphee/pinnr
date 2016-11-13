@@ -11,10 +11,19 @@ const Posts = {
     });
   },
   create: function(req, res) {
-    db.Post.create(req.body).then(function(post) {
+    db.Post.create(req.body.post).then(function(post) {
       res.send({ post });
     });
-  }
+  },
+  delete: function(req, res) {
+    db.Post.find({
+      where: {
+        id: req.params.id
+      }
+    }).then(function(post) {
+      return post.destroy();
+    });
+  },
 };
 
 module.exports = Posts;

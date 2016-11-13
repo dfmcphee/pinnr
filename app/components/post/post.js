@@ -17,7 +17,7 @@ export default class Post extends React.Component {
           </Card.Description>
         </Card.Content>
         <Card.Content extra>
-          <Button basic color='red'>Delete</Button>
+          <Button basic color='red' onClick={this.props.onRemove}>Delete</Button>
         </Card.Content>
       </Card>
     );

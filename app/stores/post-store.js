@@ -1,10 +1,10 @@
-const API = '/api/groups'
+const API = '/api/posts'
 
-let _groups = {};
+let _posts = {};
 let _initCalled = false;
 let _changeListeners = [];
 
-const GroupStore = {
+const PostStore = {
 
   init: function () {
     if (_initCalled) {
@@ -14,42 +14,44 @@ const GroupStore = {
     _initCalled = true;
 
     getJSON(API, function (err, res) {
-      res.groups.forEach(function (group) {
-        _groups[group.id] = group;
+      res.posts.forEach(function (post) {
+        _posts[post.id] = post;
       })
 
-      GroupStore.notifyChange();
+      PostStore.notifyChange();
     })
   },
 
-  addGroup: function (group, cb) {
-    postJSON(API, { group: group }, function (res) {
-      _groups[res.group.id] = res.group;
-      GroupStore.notifyChange();
+  addPost: function (post, cb) {
+    postJSON(API, { post: post }, function (res) {
+      _posts[res.post.id] = res.post;
+      PostStore.notifyChange();
       if (cb){
-        cb(res.group);
+        cb(res.post);
       }
     })
   },
 
-  removeGroup: function (id, cb) {
+  removePost: function (id, cb) {
     deleteJSON(API + '/' + id, cb);
-    delete _groups[id];
-    GroupStore.notifyChange();
+    delete _posts[id];
+    PostStore.notifyChange();
   },
 
-  getGroups: function () {
+  getPosts: function(groupId) {
     const array = [];
 
-    for (const id in _groups) {
-      array.push(_groups[id]);
+    for (const id in _posts) {
+      if (_posts[id].GroupId === groupId) {
+        array.push(_posts[id]);
+      }
     }
 
     return array;
   },
 
-  getGroup: function (id) {
-    return _groups[id];
+  getPost: function (id) {
+    return _posts[id];
   },
 
   notifyChange: function () {
@@ -105,4 +107,4 @@ function deleteJSON(url, cb) {
   req.send();
 }
 
-export default GroupStore;
+export default PostStore;
