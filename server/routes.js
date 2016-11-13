@@ -1,21 +1,22 @@
 const router = require('express').Router();
+const passport = require('passport');
 const index = require('./routes/index');
 const groups = require('./routes/groups');
 const posts = require('./routes/posts');
 const email = require('./routes/email');
-var passport = require('passport'),
-    signupController = require('../controllers/signupController.js')
+const signup = require('./routes/signup.js')
 
 var isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated())
-    return next()
-  req.flash('error', 'You have to be logged in to access the page.')
-  res.redirect('/')
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  req.flash('error', 'You have to be logged in to access the page.');
+  res.redirect('/');
 }
 
 const routes = function() {
-  router.get('/signup', signupController.show)
-  router.post('/signup', signupController.signup)
+  router.get('/signup', signup.show)
+  router.post('/signup', signup.signup)
   router.post('/login', passport.authenticate('local', {
       successRedirect: '/',
       failureRedirect: '/',
