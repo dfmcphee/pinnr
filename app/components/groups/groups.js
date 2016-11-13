@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { Card } from 'semantic-ui-react';
 import GroupStore from '../../stores/group-store';
 
 export default class Groups extends React.Component {
@@ -33,11 +34,16 @@ export default class Groups extends React.Component {
   render() {
     return (
       <div className="groups">
-        <ul>
+        <Card.Group>
           {this.state.groups.map(group => (
-            <li key={group.id}><Link to={`/group/${group.id}`}>{group.title}</Link></li>
+            <Card key={group.id}>
+              <Card.Content>
+                <Card.Header><Link to={`/group/${group.id}`}>{group.title}</Link></Card.Header>
+                <Card.Meta>#{group.hashtag}</Card.Meta>
+              </Card.Content>
+            </Card>
           ))}
-        </ul>
+        </Card.Group>
       </div>
     );
   }

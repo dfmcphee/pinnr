@@ -5,10 +5,7 @@ module.exports = function (sequelize, DataTypes){
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    url: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+    url: DataTypes.STRING,
     title: DataTypes.STRING,
     pinned: DataTypes.BOOLEAN,
     hidden: DataTypes.BOOLEAN,
