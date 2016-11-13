@@ -2,7 +2,9 @@ var db = require('../models/db');
 
 const Groups = {
   index: function(req, res) {
-    db.Group.findAll({}).then(function(groups) {
+    db.Group.findAll({
+      include: [db.Post]
+    }).then(function(groups) {
       if (!groups) {
         res.send(404);
       } else {

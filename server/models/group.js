@@ -1,3 +1,5 @@
+const uniqueSlug = require('unique-slug');
+
 module.exports = function (sequelize, DataTypes){
   var Group = sequelize.define('Group', {
     id: {
@@ -7,7 +9,8 @@ module.exports = function (sequelize, DataTypes){
     },
     url: {
       type: DataTypes.STRING,
-      allowNull: true,
+      unique: true,
+      defaultValue: uniqueSlug()
     },
     title: {
       type: DataTypes.STRING,

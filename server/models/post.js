@@ -6,9 +6,15 @@ module.exports = function (sequelize, DataTypes){
       defaultValue: DataTypes.UUIDV4,
     },
     url: DataTypes.STRING,
-    title: DataTypes.STRING,
-    pinned: DataTypes.BOOLEAN,
-    hidden: DataTypes.BOOLEAN,
+    username: DataTypes.STRING,
+    pinned: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    hidden: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     service: DataTypes.STRING,
     content: DataTypes.TEXT,
     attachment: DataTypes.STRING,
