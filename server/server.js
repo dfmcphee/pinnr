@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const routes = require('./routes');
 const isProduction = process.env.NODE_ENV === 'production';
 const port = process.env.PORT ? process.env.PORT : 3000;
@@ -32,6 +33,8 @@ if (!isProduction) {
 
 app.set('view engine', 'ejs');
 app.set('views', './app/views');
+
+app.use(bodyParser.json());
 
 app.use('/', routes);
 

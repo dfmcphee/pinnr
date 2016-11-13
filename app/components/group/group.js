@@ -1,6 +1,6 @@
 import React from 'react';
-import Member from '../member/member.js';
-import GroupStore from '../../stores/group';
+import Post from '../post/post.js';
+import GroupStore from '../../stores/group-store';
 
 export default class Group extends React.Component {
   constructor(props) {
@@ -30,16 +30,16 @@ export default class Group extends React.Component {
     this.setState(this.getStateFromStore());
   }
 
-  members() {
-    if (!this.state.members) {
+  posts() {
+    if (!this.state.posts) {
       return;
     }
 
     return (
-      <ul className="group__members">
-        {this.state.members.map(member => (
-          <li key={member.email}>
-            <Member name={member.name} email={member.email} />
+      <ul className="group__posts">
+        {this.state.posts.map(post => (
+          <li key={post.id}>
+            <Post content={post.content} user={post.user} />
           </li>
         ))}
       </ul>
@@ -50,7 +50,8 @@ export default class Group extends React.Component {
     return (
       <div className="group">
         <h1 className="group__name">{this.state.name}</h1>
-        {this.members()}
+        <p>Hashag: #{this.state.hashtag}</p>
+        {this.posts()}
       </div>
     );
   }

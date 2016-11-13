@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import GroupStore from '../../stores/group';
+import GroupStore from '../../stores/group-store';
 
 export default class Groups extends React.Component {
   constructor(props) {
