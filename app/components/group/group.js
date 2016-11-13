@@ -49,8 +49,8 @@ export default class Group extends React.Component {
   render() {
     return (
       <div className="group">
-        <h1 className="group__name">{this.state.name}</h1>
-        <p>Hashag: #{this.state.hashtag}</p>
+        <h1 className="group__name">{this.state.title}</h1>
+        <p>#{this.state.hashtag}</p>
         {this.posts()}
       </div>
     );

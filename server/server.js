@@ -40,7 +40,7 @@ app.use(bodyParser.json());
 app.use('/', routes);
 
 db.sequelize.sync({
-  force: false
+  force: true
 })
 .then(function() {
   app.listen(port, '0.0.0.0', function(err) {

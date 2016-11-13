@@ -2,29 +2,20 @@ var db = require('../models/db');
 
 const Groups = {
   index: function(req, res) {
-    res.send({groups: [
-      {
-        id: '001',
-        name: 'Group 1',
-        hashtag: 'sometag',
-        posts: []
-      },
-      {
-        id: '002',
-        name: 'Group 2',
-        hashtag: 'anothertag',
-        posts: []
-      },
-    ]});
+    db.Group.find({}).then(function(groups) {
+      if (!groups) {
+        res.send(404);
+      } else {
+        res.send({ groups });
+      }
+    });
   },
   create: function(req, res) {
-    res.send({
-      group: {
-        id: '003',
-        name: req.body.group.name,
-        hashtag: req.body.group.hashtag,
-        posts: []
-      }
+    db.Group.create({
+      title: req.body.group.title,
+      hashtag: req.body.group.hashtag
+    }).then(function(group) {
+      res.send({ group });
     });
   }
 };

@@ -9,9 +9,9 @@ export default class Index extends React.Component {
     super(props);
 
     this.state = {
-      name: '',
+      title: '',
       hashtag: '',
-      nameError: false,
+      titleError: false,
       hashtagError: false
     };
   }
@@ -26,23 +26,23 @@ export default class Index extends React.Component {
     });
   }
 
-  changeName(event) {
-    this.setState({name: event.target.value});
+  changeTitle(event) {
+    this.setState({title: event.target.value});
   }
 
-  blurName(event) {
+  blurTitle(event) {
     this.setState({
-      nameError: (this.state.name === '')
+      titleError: (this.state.title === '')
     });
   }
 
   createGroup() {
-    if (this.state.nameError || this.state.hashtagError) {
+    if (this.state.titleError || this.state.hashtagError) {
       return;
     }
 
     GroupStore.addGroup({
-      name: this.state.name,
+      title: this.state.title,
       hashtag: this.state.hashtag
     }, (group) => {
       browserHistory.push(`/group/${group.id}`);
@@ -53,11 +53,11 @@ export default class Index extends React.Component {
     return (
       <div>
         <Form>
-          <Form.Field error={this.state.nameError}>
-            <label>Group name</label>
-            <Input value={this.state.name}
-              onBlur={(event) => this.blurName(event)}
-              onChange={(event) => this.changeName(event)} />
+          <Form.Field error={this.state.titleError}>
+            <label>Group title</label>
+            <Input value={this.state.title}
+              onBlur={(event) => this.blurTitle(event)}
+              onChange={(event) => this.changeTitle(event)} />
           </Form.Field>
           <Form.Field error={this.state.hashtagError}>
             <label>Hashtag</label>

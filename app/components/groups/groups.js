@@ -35,7 +35,7 @@ export default class Groups extends React.Component {
       <div className="groups">
         <ul>
           {this.state.groups.map(group => (
-            <li key={group.id}><Link to={`/group/${group.id}`}>{group.name}</Link></li>
+            <li key={group.id}><Link to={`/group/${group.id}`}>{group.title}</Link></li>
           ))}
         </ul>
       </div>
