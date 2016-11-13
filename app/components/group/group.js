@@ -10,7 +10,7 @@ export default class Group extends React.Component {
       title: '',
       hashtag: '',
       url: '',
-      posts: []
+      Posts: []
     }
   }
 
@@ -41,7 +41,7 @@ export default class Group extends React.Component {
   }
 
   posts() {
-    if (!this.state.posts) {
+    if (!this.state.Posts) {
       return;
     }
 
