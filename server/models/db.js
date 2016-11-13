@@ -5,7 +5,7 @@ const config = require('../config');
 const db = {};
 const currentEnv = process.env.NODE_ENV || 'development';
 
-let sequelize;
+var sequelize;
 
 if (currentEnv === 'development') {
   sequelize = new Sequelize('postgres://localhost/blackmirror');

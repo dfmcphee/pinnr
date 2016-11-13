@@ -54,7 +54,7 @@ export default class Index extends React.Component {
       <div>
         <Form>
           <Form.Field error={this.state.nameError}>
-            <label>Group Name</label>
+            <label>Group name</label>
             <Input value={this.state.name}
               onBlur={(event) => this.blurName(event)}
               onChange={(event) => this.changeName(event)} />
