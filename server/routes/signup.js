@@ -1,16 +1,16 @@
-var bcrypt = require('bcrypt'),
-    db = require('../models/db.js')
+const bcrypt = require('bcrypt');
+const db = require('../models/db.js');
 
 module.exports.show = function(req, res) {
-  res.render('signup')
+  res.render('signup');
 }
 
 module.exports.signup = function(req, res) {
-  var username = req.body.username
+  var email = req.body.email
   var password = req.body.password
   var password2 = req.body.password2
 
-  if (!username || !password || !password2) {
+  if (!email || !password || !password2) {
     req.flash('error', "Please, fill in all the fields.")
     res.redirect('signup')
   }
@@ -24,15 +24,17 @@ module.exports.signup = function(req, res) {
   var hashedPassword = bcrypt.hashSync(password, salt)
 
   var newUser = {
-    username: username,
+    email: email,
     salt: salt,
     password: hashedPassword
   }
 
+  console.log(newUser);
+
   db.User.create(newUser).then(function() {
     res.redirect('/')
   }).catch(function(error) {
-    req.flash('error', "Please, choose a different username.")
+    req.flash('error', "Please, choose a different email.")
     res.redirect('/signup')
   })
 }

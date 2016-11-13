@@ -1,10 +1,14 @@
 require('dotenv').config();
 
 const express = require('express');
+const flash = require('connect-flash');
+const session = require('express-session');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const routes = require('./routes');
 const Twitter = require('./twitter');
 const db = require('./models/db');
+const passport = require('./passport');
 const isProduction = process.env.NODE_ENV === 'production';
 const port = process.env.PORT ? process.env.PORT : 3000;
 const app = express();
@@ -41,10 +45,25 @@ app.set('views', './app/views');
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb'}));
 
+app.use(cookieParser());
+app.use(session({
+  secret: '4564f6s4fdsfdfd',
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(flash());
+app.use(function(req, res, next) {
+  res.locals.errorMessage = req.flash('error');
+  next();
+});
+
 app.use('/', routes);
 
+passport(app);
+
 db.sequelize.sync({
-  force: false
+  force: true
 })
 .then(function() {
   app.listen(port, '0.0.0.0', function(err) {
