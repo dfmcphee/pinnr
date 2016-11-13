@@ -76,24 +76,34 @@ export default class Group extends React.Component {
     );
   }
 
+  groupDetails() {
+    if (!this.state.group) {
+      return;
+    }
+
+    return (
+      <Card fluid>
+        <Card.Content>
+          <Card.Header>
+            {this.state.group.title}
+          </Card.Header>
+          <Card.Meta>
+            #{this.state.group.hashtag}
+          </Card.Meta>
+          <Card.Description>
+            <a href={`mailto:${this.state.group.url}@inbound.simplifeed.me`}>
+              {this.state.group.url}@inbound.simplifeed.me
+            </a>
+          </Card.Description>
+        </Card.Content>
+      </Card>
+    );
+  }
+
   render() {
     return (
       <div className="group">
-        <Card fluid>
-          <Card.Content>
-            <Card.Header>
-              {this.state.group.title}
-            </Card.Header>
-            <Card.Meta>
-              #{this.state.group.hashtag}
-            </Card.Meta>
-            <Card.Description>
-              <a href={`mailto:${this.state.group.url}@inbound.simplifeed.me`}>
-                {this.state.group.url}@inbound.simplifeed.me
-              </a>
-            </Card.Description>
-          </Card.Content>
-        </Card>
+        {this.groupDetails()}
         {this.posts()}
       </div>
     );
