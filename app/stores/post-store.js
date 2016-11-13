@@ -1,4 +1,4 @@
-const API = '/api/posts'
+const API = '/api/posts';
 
 let _posts = {};
 let _initCalled = false;

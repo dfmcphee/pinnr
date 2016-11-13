@@ -23,7 +23,7 @@ const Email = function(req, res) {
     }
   }).then(function(group) {
     if (!group) {
-      return;
+      return res.send(404);
     }
 
     if (req.body.Attachments && req.body.Attachments.length > 0) {
