@@ -3,7 +3,15 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const config = require('../config');
 const db = {};
-const sequelize = new Sequelize(`postgres://${config.username}:${config.password}@${config.host}:${config.port}/${config.database}`);
+const currentEnv = process.env.NODE_ENV || 'development';
+
+let sequelize;
+
+if (currentEnv === 'development') {
+  sequelize = new Sequelize('postgres://localhost/blackmirror');
+} else {
+  sequelize = new Sequelize(`postgres://${config.username}:${config.password}@${config.host}:${config.port}/${config.database}`);
+}
 
 fs.readdirSync(__dirname).filter(function (file) {
   return (file.indexOf('.') !== 0) && (file !== 'db.js');
