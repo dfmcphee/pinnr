@@ -26,10 +26,10 @@ const routes = function() {
     res.send({authenticated: false});
   })
   router.get('/api/groups', groups.index);
-  router.post('/api/groups', isAuthenticated, groups.create);
+  router.post('/api/groups', groups.create);
   router.get('/api/posts', posts.index);
   router.post('/api/posts', posts.create);
-  router.delete('/api/posts/:id/', isAuthenticated, posts.delete);
+  router.delete('/api/posts/:id/', posts.delete);
   router.post('/api/email', email);
   router.get('*', index);
 
