@@ -6,35 +6,27 @@ module.exports.show = function(req, res) {
 }
 
 module.exports.signup = function(req, res) {
-  var email = req.body.email
-  var password = req.body.password
-  var password2 = req.body.password2
+  var username = req.body.username;
+  var password = req.body.password;
 
-  if (!email || !password || !password2) {
-    req.flash('error', "Please, fill in all the fields.")
-    res.redirect('signup')
-  }
-
-  if (password !== password2) {
-    req.flash('error', "Please, enter the same password twice.")
-    res.redirect('signup')
+  if (!username || !password) {
+    res.send({success: false});
   }
 
   var salt = bcrypt.genSaltSync(10)
   var hashedPassword = bcrypt.hashSync(password, salt)
 
   var newUser = {
-    email: email,
+    username: username,
     salt: salt,
     password: hashedPassword
   }
 
-  console.log(newUser);
-
-  db.User.create(newUser).then(function() {
-    res.redirect('/')
+  db.User.create(newUser).then(function(user) {
+    req.login(user, function (err) {
+      res.send({ authenticated: true });
+    });
   }).catch(function(error) {
-    req.flash('error', "Please, choose a different email.")
-    res.redirect('/signup')
+    res.send({ authenticated: false });
   })
 }

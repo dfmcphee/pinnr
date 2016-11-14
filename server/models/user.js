@@ -5,13 +5,15 @@ module.exports = function (sequelize, DataTypes){
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    name: {
+    username: {
       type: DataTypes.STRING,
+      unique: true,
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false,
+      allowNull: true,
       validate: {
         isEmail: true
       }

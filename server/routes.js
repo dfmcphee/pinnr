@@ -10,21 +10,20 @@ var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-  req.flash('error', 'You have to be logged in to access the page.');
-  res.redirect('/');
+  res.send({authenticated: false});
 }
 
 const routes = function() {
-  router.get('/signup', signup.show)
   router.post('/signup', signup.signup)
-  router.post('/login', passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: '/',
-      failureFlash: true
-  }))
-  router.get('/logout', function(req, res) {
-    req.logout()
-    res.redirect('/')
+  router.get('/authenticated', isAuthenticated, function(req, res) {
+    res.send({authenticated: true});
+  });
+  router.post('/login', passport.authenticate('local'), function(req, res) {
+    res.send({authenticated: true});
+  });
+  router.post('/logout', function(req, res) {
+    req.logout();
+    res.send({authenticated: false});
   })
   router.get('/api/groups', groups.index);
   router.post('/api/groups', isAuthenticated, groups.create);

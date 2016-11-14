@@ -9,6 +9,8 @@ module.exports = function(app) {
 
   passport.use(new LocalStrategy(
     function(username, password, done) {
+      console.log(username);
+      console.log(password);
       db.User.findOne({
         where: {
           'username': username

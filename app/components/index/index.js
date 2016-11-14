@@ -1,7 +1,6 @@
 import React from 'react';
-import { browserHistory } from 'react-router'
-import Group from '../group/group.js';
-import GroupStore from '../../stores/group-store';
+import { browserHistory } from 'react-router';
+import AuthenticationStore from '../../stores/authentication-store';
 import { Label, Form, Input, Button, Container, Header } from 'semantic-ui-react';
 
 export default class Index extends React.Component {
@@ -9,73 +8,97 @@ export default class Index extends React.Component {
     super(props);
 
     this.state = {
-      title: '',
-      hashtag: '',
-      titleError: false,
-      hashtagError: false
+      authenticated: false,
+      username: '',
+      password: ''
     };
+
+    AuthenticationStore.init();
   }
 
-  changeHashtag(event) {
-    this.setState({hashtag: event.target.value});
+  changeUsername(event) {
+    this.setState({username: event.target.value});
   }
 
-  blurHashtag(event) {
-    this.setState({
-      hashtagError: (this.state.hashtag === '')
+  changePassword(event) {
+    this.setState({password: event.target.value});
+  }
+
+  updateAuthentication() {
+    this.setState({authenticated: AuthenticationStore.isAuthenticated()});
+  }
+
+  componentDidMount() {
+    AuthenticationStore.addChangeListener(() => this.updateAuthentication())
+  }
+
+  componentWillUnmount() {
+    AuthenticationStore.removeChangeListener(() => this.updateAuthentication())
+  }
+
+  login() {
+    AuthenticationStore.login({
+      username: this.state.username,
+      password: this.state.password
+    }, (result) => {
+      this.setState({
+        authenticated: result
+      })
     });
   }
 
-  changeTitle(event) {
-    this.setState({title: event.target.value});
+  navigate() {
+    browserHistory.push('/add');
   }
 
-  blurTitle(event) {
-    this.setState({
-      titleError: (this.state.title === '')
-    });
-  }
-
-  createGroup() {
-    if (this.state.titleError || this.state.hashtagError) {
+  loginForm() {
+    if (this.state.authenticated) {
       return;
     }
 
-    GroupStore.addGroup({
-      title: this.state.title,
-      hashtag: this.state.hashtag
-    }, (group) => {
-      browserHistory.push(`/group/${group.id}`);
-    });
+    return (
+      <div>
+        <Header as="h1">Login</Header>
+        <Form size="large">
+          <Form.Group widths='equal'>
+            <Form.Field>
+              <label>Username</label>
+              <Input required value={this.state.title}
+                onChange={(event) => this.changeUsername(event)} />
+            </Form.Field>
+            <Form.Field>
+              <label>Password</label>
+              <Input type="password" required value={this.state.password}
+                  onChange={(event) => this.changePassword(event)} />
+            </Form.Field>
+          </Form.Group>
+          <Button primary size="large" type="button" floated="right" onClick={() => this.login()}>
+            Login
+          </Button>
+        </Form>
+      </div>
+    );
+  }
+
+  createGroup() {
+    if (!this.state.authenticated) {
+      return;
+    }
+    return (
+      <div>
+        <Header as="h1">Welcome</Header>
+        <Button primary size="large" type="button" onClick={() => this.navigate()}>
+          Create a new group
+        </Button>
+      </div>
+    );
   }
 
   render() {
     return (
       <Container text>
-        <Header as="h1">Create a new group</Header>
-        <Form size="large">
-          <Form.Group widths='equal'>
-            <Form.Field error={this.state.titleError}>
-              <label>Group title</label>
-              <Input value={this.state.title}
-                onBlur={(event) => this.blurTitle(event)}
-                onChange={(event) => this.changeTitle(event)} />
-            </Form.Field>
-            <Form.Field error={this.state.hashtagError}>
-              <label>Hashtag</label>
-              <Input labelPosition='left'>
-                <Label basic>#</Label>
-                <input type='text'
-                  value={this.state.hashtag}
-                  onChange={(event) => this.changeHashtag(event)}
-                  onBlur={(event) => this.blurHashtag(event)} />
-              </Input>
-            </Form.Field>
-          </Form.Group>
-          <Button primary size="large" type="button" floated="right" onClick={() => this.createGroup()}>
-              Create
-          </Button>
-        </Form>
+        {this.loginForm()}
+        {this.createGroup()}
       </Container>
     );
   }

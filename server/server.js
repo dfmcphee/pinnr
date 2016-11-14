@@ -42,25 +42,16 @@ if (!isProduction) {
 app.set('view engine', 'ejs');
 app.set('views', './app/views');
 
+app.use(cookieParser());
+
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb'}));
 
-app.use(cookieParser());
-app.use(session({
-  secret: '4564f6s4fdsfdfd',
-  resave: false,
-  saveUninitialized: false
-}));
-
-app.use(flash());
-app.use(function(req, res, next) {
-  res.locals.errorMessage = req.flash('error');
-  next();
-});
-
-app.use('/', routes);
+app.use(session({ secret: '4564f6s4fdsfdfd' }));
 
 passport(app);
+
+app.use('/', routes);
 
 db.sequelize.sync({
   force: true
