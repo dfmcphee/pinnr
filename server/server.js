@@ -54,7 +54,7 @@ passport(app);
 app.use('/', routes);
 
 db.sequelize.sync({
-  force: true
+  force: false
 })
 .then(function() {
   app.listen(port, '0.0.0.0', function(err) {
