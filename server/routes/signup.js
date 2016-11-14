@@ -24,9 +24,15 @@ module.exports.signup = function(req, res) {
 
   db.User.create(newUser).then(function(user) {
     req.login(user, function (err) {
-      res.send({ authenticated: true });
+      res.send({
+        authenticated: true,
+        user: user
+      });
     });
   }).catch(function(error) {
-    res.send({ authenticated: false });
+    res.send({
+      authenticated: false,
+      user: null
+    });
   })
 }

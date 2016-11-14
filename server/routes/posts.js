@@ -2,7 +2,11 @@ const db = require('../models/db');
 
 const Posts = {
   index: function(req, res) {
-    db.Post.findAll({}).then(function(posts) {
+    db.Post.findAll({
+      where: {
+        GroupId: req.params.id
+      }
+    }).then(function(posts) {
       if (!posts) {
         res.send(404);
       } else {

@@ -1,19 +1,12 @@
 const API = '/api/posts';
 
 let _posts = {};
-let _initCalled = false;
 let _changeListeners = [];
 
 const PostStore = {
 
-  init: function () {
-    if (_initCalled) {
-      return;
-    }
-
-    _initCalled = true;
-
-    getJSON(API, function (err, res) {
+  init: function (groupId) {
+    getJSON(`/api/groups/${groupId}/posts`, function (err, res) {
       res.posts.forEach(function (post) {
         _posts[post.id] = post;
       })
@@ -69,7 +62,6 @@ const PostStore = {
       return listener !== l;
     })
   }
-
 }
 
 localStorage.token = localStorage.token || (Date.now()*Math.random())

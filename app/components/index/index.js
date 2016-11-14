@@ -1,5 +1,5 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import AuthenticationStore from '../../stores/authentication-store';
 import { Label, Form, Input, Button, Container, Header } from 'semantic-ui-react';
 
@@ -9,6 +9,7 @@ export default class Index extends React.Component {
 
     this.state = {
       authenticated: false,
+      user: null,
       username: '',
       password: ''
     };
@@ -25,7 +26,10 @@ export default class Index extends React.Component {
   }
 
   updateAuthentication() {
-    this.setState({authenticated: AuthenticationStore.isAuthenticated()});
+    this.setState({
+      authenticated: AuthenticationStore.isAuthenticated(),
+      user: AuthenticationStore.getUser()
+    });
   }
 
   componentDidMount() {
@@ -40,10 +44,8 @@ export default class Index extends React.Component {
     AuthenticationStore.login({
       username: this.state.username,
       password: this.state.password
-    }, (result) => {
-      this.setState({
-        authenticated: result
-      })
+    }, (authenticated, user) => {
+      this.setState({ authenticated, user})
     });
   }
 
@@ -76,6 +78,9 @@ export default class Index extends React.Component {
             Login
           </Button>
         </Form>
+        <p>
+          Need an account? <Link to="/signup">Signup</Link>
+        </p>
       </div>
     );
   }
@@ -86,7 +91,7 @@ export default class Index extends React.Component {
     }
     return (
       <div>
-        <Header as="h1">Welcome</Header>
+        <Header as="h1">Welcome {this.state.user.username}</Header>
         <Button primary size="large" type="button" onClick={() => this.navigate()}>
           Create a new group
         </Button>

@@ -1,4 +1,5 @@
 let _authenticated = false;
+let _user = null;
 let _initCalled = false;
 let _changeListeners = [];
 
@@ -12,6 +13,7 @@ const AuthenticationStore = {
 
     getJSON('/authenticated', function (err, res) {
       _authenticated = res.authenticated;
+      _user = res.user;
       AuthenticationStore.notifyChange();
     })
   },
@@ -20,12 +22,17 @@ const AuthenticationStore = {
     return _authenticated;
   },
 
+  getUser: function() {
+    return _user;
+  },
+
   login: function (data, cb) {
     postJSON('/login', data, function (res) {
       _authenticated = res.authenticated;
+      _user = res.user;
       AuthenticationStore.notifyChange();
       if (cb){
-        cb(res.authenticated);
+        cb(res.authenticated, user);
       }
     });
   },
@@ -33,9 +40,10 @@ const AuthenticationStore = {
   signup: function (data, cb) {
     postJSON('/signup', data, function (res) {
       _authenticated = res.authenticated;
+      _user = res.user;
       AuthenticationStore.notifyChange();
       if (cb){
-        cb(res.authenticated);
+        cb(res.authenticated, user);
       }
     });
   },
@@ -43,6 +51,7 @@ const AuthenticationStore = {
   logout: function (id, cb) {
     postJSON('/logout', data, function (res) {
       _authenticated = res.authenticated;
+      _user = res.user;
       AuthenticationStore.notifyChange();
       if (cb){
         cb(res.authenticated);

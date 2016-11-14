@@ -47,7 +47,7 @@ app.use(cookieParser());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb'}));
 
-app.use(session({ secret: '4564f6s4fdsfdfd' }));
+app.use(session({ secret: process.env.SESSION_SECRET }));
 
 passport(app);
 

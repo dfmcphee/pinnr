@@ -2,6 +2,7 @@ import React from 'react';
 import Post from '../post/post.js';
 import GroupStore from '../../stores/group-store';
 import PostStore from '../../stores/post-store';
+import AuthenticationStore from '../../stores/authentication-store';
 import { Card } from 'semantic-ui-react';
 
 export default class Group extends React.Component {
@@ -11,6 +12,8 @@ export default class Group extends React.Component {
     const { groupId } = this.props.params;
 
     this.state = {
+      authenticated: false,
+      user: null,
       groupId: groupId,
       group: {
         title: '',
@@ -19,8 +22,9 @@ export default class Group extends React.Component {
       }
     };
 
+    AuthenticationStore.init();
     GroupStore.init();
-    PostStore.init();
+    PostStore.init(groupId);
   }
 
   getGroupStateFromStore() {
@@ -36,14 +40,23 @@ export default class Group extends React.Component {
     this.updatePosts();
   }
 
+  updateAuthentication() {
+    this.setState({
+      authenticated: AuthenticationStore.isAuthenticated(),
+      user: AuthenticationStore.getUser()
+    });
+  }
+
   componentDidMount() {
     GroupStore.addChangeListener(() => this.updateGroup())
     PostStore.addChangeListener(() => this.updatePosts())
+    AuthenticationStore.addChangeListener(() => this.updateAuthentication())
   }
 
   componentWillUnmount() {
     GroupStore.removeChangeListener(() => this.updateGroup())
     PostStore.removeChangeListener(() => this.updatePosts())
+    AuthenticationStore.removeChangeListener(() => this.updateAuthentication())
   }
 
   updateGroup() {
@@ -62,6 +75,13 @@ export default class Group extends React.Component {
     PostStore.removePost(postId);
   }
 
+  isOwner() {
+    if (!this.state.user) {
+      return false;
+    }
+    return (this.state.group.UserId === this.state.user.id);
+  }
+
   posts() {
     if (!this.state.posts) {
       return;
@@ -70,7 +90,7 @@ export default class Group extends React.Component {
     return (
       <Card.Group>
         {this.state.posts.map(post => (
-          <Post post={post} key={post.id} onRemove={() => this.removePost(post.id)} />
+          <Post post={post} key={post.id} onRemove={() => this.removePost(post.id)} owner={this.isOwner()} />
         ))}
       </Card.Group>
     );

@@ -26,6 +26,7 @@ module.exports = function (sequelize, DataTypes){
       associate: function(models) {
         Group.hasMany(models.Post);
         Group.hasMany(models.Member);
+        Group.belongsTo(models.User);
       }
     }
   });

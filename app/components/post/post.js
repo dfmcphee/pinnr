@@ -16,6 +16,18 @@ export default class Post extends React.Component {
     );
   }
 
+  cardActions() {
+    if (!this.props.owner) {
+      return;
+    }
+
+    return (
+      <Card.Content extra>
+        <Button basic color='red' onClick={this.props.onRemove}>Delete</Button>
+      </Card.Content>
+    );
+  }
+
   render() {
     return (
       <Card key={this.props.post.id}>
@@ -27,9 +39,7 @@ export default class Post extends React.Component {
             {this.props.post.content}
           </Card.Description>
         </Card.Content>
-        <Card.Content extra>
-          <Button basic color='red' onClick={this.props.onRemove}>Delete</Button>
-        </Card.Content>
+        {this.cardActions()}
       </Card>
     );
   }

@@ -3,22 +3,33 @@ var Twitter = require('../twitter');
 
 const Groups = {
   index: function(req, res) {
-    db.Group.findAll({}).then(function(groups) {
-      if (!groups) {
-        res.send(404);
-      } else {
-        res.send({ groups });
-      }
-    });
+    if (req.user) {
+      db.Group.findAll({
+        UserId: req.user.id
+      }).then(function(groups) {
+        if (!groups) {
+          res.send(404);
+        } else {
+          res.send({ groups });
+        }
+      });
+    } else {
+      res.send({ groups: [] });
+    }
   },
   create: function(req, res) {
-    db.Group.create({
-      title: req.body.group.title,
-      hashtag: req.body.group.hashtag
-    }).then(function(group) {
-      Twitter.startStream(group);
-      res.send({ group });
-    });
+    if (req.user) {
+      db.Group.create({
+        title: req.body.group.title,
+        hashtag: req.body.group.hashtag,
+        UserId: req.user.id
+      }).then(function(group) {
+        Twitter.startStream(group);
+        res.send({ group });
+      });
+    } else {
+      res.send(401);
+    }
   }
 };
 
