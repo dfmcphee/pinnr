@@ -12,6 +12,8 @@ export default class Signup extends React.Component {
       username: '',
       password: ''
     };
+
+    AuthenticationStore.init();
   }
 
   changeUsername(event) {
@@ -26,8 +28,9 @@ export default class Signup extends React.Component {
     AuthenticationStore.signup({
       username: this.state.username,
       password: this.state.password
-    }, function(response) {
-      if (response) {
+    }, function(authenticated, user) {
+      debugger;
+      if (authenticated) {
         browserHistory.push('/');
       }
     });

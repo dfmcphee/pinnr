@@ -7,12 +7,14 @@ import Groups from './components/groups/groups.js';
 import Group from './components/group/group.js';
 import Create from './components/create/create.js';
 import Signup from './components/signup/signup.js';
+import Login from './components/login/login.js';
 import NoMatch from './components/no-match/no-match.js';
 
 render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Index} />
+      <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
       <Route path="/add" component={Create} />
       <Route path="/groups" component={Groups} />

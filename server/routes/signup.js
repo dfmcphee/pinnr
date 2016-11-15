@@ -13,8 +13,8 @@ module.exports.signup = function(req, res) {
     res.send({success: false});
   }
 
-  var salt = bcrypt.genSaltSync(10)
-  var hashedPassword = bcrypt.hashSync(password, salt)
+  var salt = bcrypt.genSaltSync(10);
+  var hashedPassword = bcrypt.hashSync(password, salt);
 
   var newUser = {
     username: username,

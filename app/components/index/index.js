@@ -2,6 +2,7 @@ import React from 'react';
 import { browserHistory, Link } from 'react-router';
 import AuthenticationStore from '../../stores/authentication-store';
 import { Label, Form, Input, Button, Container, Header } from 'semantic-ui-react';
+import Login from '../login/login';
 
 export default class Index extends React.Component {
   constructor(props) {
@@ -40,15 +41,6 @@ export default class Index extends React.Component {
     AuthenticationStore.removeChangeListener(() => this.updateAuthentication())
   }
 
-  login() {
-    AuthenticationStore.login({
-      username: this.state.username,
-      password: this.state.password
-    }, (authenticated, user) => {
-      this.setState({ authenticated, user})
-    });
-  }
-
   navigate() {
     browserHistory.push('/add');
   }
@@ -59,29 +51,7 @@ export default class Index extends React.Component {
     }
 
     return (
-      <div>
-        <Header as="h1">Login</Header>
-        <Form size="large">
-          <Form.Group widths='equal'>
-            <Form.Field>
-              <label>Username</label>
-              <Input required value={this.state.title}
-                onChange={(event) => this.changeUsername(event)} />
-            </Form.Field>
-            <Form.Field>
-              <label>Password</label>
-              <Input type="password" required value={this.state.password}
-                  onChange={(event) => this.changePassword(event)} />
-            </Form.Field>
-          </Form.Group>
-          <Button primary size="large" type="button" floated="right" onClick={() => this.login()}>
-            Login
-          </Button>
-        </Form>
-        <p>
-          Need an account? <Link to="/signup">Signup</Link>
-        </p>
-      </div>
+      <Login />
     );
   }
 

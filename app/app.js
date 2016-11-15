@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Container, Menu, Segment } from 'semantic-ui-react';
+import { Button, Container, Menu, Segment } from 'semantic-ui-react';
 import AuthenticationStore from './stores/authentication-store';
 
 export default class App extends React.Component {
@@ -29,6 +29,10 @@ export default class App extends React.Component {
     AuthenticationStore.removeChangeListener(() => this.updateAuthentication())
   }
 
+  logout() {
+    AuthenticationStore.logout();
+  }
+
   authenticatedMenu() {
     if (!this.state.authenticated) {
       return;
@@ -38,6 +42,26 @@ export default class App extends React.Component {
       <Menu inverted pointing secondary>
         <Link to="/groups" className="item" activeClassName='active'>My groups</Link>
         <Link to="/add" className="item" activeClassName='active'>Add group</Link>
+
+        <Menu.Menu position='right'>
+         <Button primary className="item" onClick={() => this.logout()}>Logout</Button>
+        </Menu.Menu>
+      </Menu>
+    );
+  }
+
+  unauthenticatedMenu() {
+    if (this.state.authenticated) {
+      return;
+    }
+
+    return (
+      <Menu inverted pointing secondary>
+
+        <Menu.Menu position='right'>
+          <Link to="/login" className="item" activeClassName='active'>Login</Link>
+          <Link to="/signup" className="item" activeClassName='active'>Signup</Link>
+        </Menu.Menu>
       </Menu>
     );
   }
@@ -47,6 +71,7 @@ export default class App extends React.Component {
       <div>
         <Segment basic inverted>
           {this.authenticatedMenu()}
+          {this.unauthenticatedMenu()}
         </Segment>
         <Container>
           <section>
