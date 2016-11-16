@@ -1,5 +1,5 @@
-# Black Mirror
-Node knockout 2016
+# Pinnr
+A board to collect posts from Twitter and Email.
 
 ## Getting started
 1. `npm install`
