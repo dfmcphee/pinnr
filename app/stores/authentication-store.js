@@ -1,14 +1,21 @@
+import 'whatwg-fetch';
+
 let _authenticated = false;
 let _user = null;
 let _changeListeners = [];
 
 const AuthenticationStore = {
   init: function() {
-    getJSON('/authenticated', function (err, res) {
-      _authenticated = res.authenticated;
-      _user = res.user;
+    fetch('/authenticated')
+    .then(function(response) {
+      return response.json()
+    }).then(function(json) {
+      _authenticated = json.authenticated;
+      _user = json.user;
       AuthenticationStore.notifyChange();
-    })
+    }).catch(function(exception) {
+      throw exception;
+    });
   },
 
   isAuthenticated: function() {
@@ -20,35 +27,64 @@ const AuthenticationStore = {
   },
 
   login: function (data, cb) {
-    postJSON('/login', data, function (res) {
-      _authenticated = res.authenticated;
-      _user = res.user;
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(function(response) {
+      return response.json()
+    }).then(function(json) {
+      _authenticated = json.authenticated;
+      _user = json.user;
       AuthenticationStore.notifyChange();
       if (cb){
         cb(_authenticated, _user);
       }
+    }).catch(function(exception) {
+      throw exception;
     });
   },
 
   signup: function (data, cb) {
-    postJSON('/signup', data, function (res) {
-      _authenticated = res.authenticated;
-      _user = res.user;
+    fetch('/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }).then(function(response) {
+      return response.json()
+    }).then(function(json) {
+      _authenticated = json.authenticated;
+      _user = json.user;
       AuthenticationStore.notifyChange();
       if (cb){
         cb(_authenticated, _user);
       }
+    }).catch(function(exception) {
+      throw exception;
     });
   },
 
   logout: function (cb) {
-    postJSON('/logout', {}, function (res) {
-      _authenticated = res.authenticated;
-      _user = res.user;
+    fetch('/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(response) {
+      return response.json()
+    }).then(function(json) {
+      _authenticated = json.authenticated;
+      _user = json.user;
       AuthenticationStore.notifyChange();
       if (cb){
-        cb(_authenticated);
+        cb(_authenticated, _user);
       }
+    }).catch(function(err) {
+      throw err;
     });
   },
 
@@ -67,41 +103,6 @@ const AuthenticationStore = {
       return listener !== l;
     })
   }
-}
-
-localStorage.token = localStorage.token || (Date.now()*Math.random())
-
-function getJSON(url, cb) {
-  const req = new XMLHttpRequest();
-  req.onload = function () {
-    if (req.status === 404) {
-      cb(new Error('not found'));
-    } else {
-      cb(null, JSON.parse(req.response));
-    }
-  }
-  req.open('GET', url);
-  req.setRequestHeader('authorization', localStorage.token);
-  req.send();
-}
-
-function postJSON(url, obj, cb) {
-  const req = new XMLHttpRequest();
-  req.onload = function () {
-    cb(JSON.parse(req.response));
-  }
-  req.open('POST', url);
-  req.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-  req.setRequestHeader('authorization', localStorage.token);
-  req.send(JSON.stringify(obj));
-}
-
-function deleteJSON(url, cb) {
-  const req = new XMLHttpRequest();
-  req.onload = cb;
-  req.open('DELETE', url);
-  req.setRequestHeader('authorization', localStorage.token);
-  req.send();
 }
 
 export default AuthenticationStore;
