@@ -10,7 +10,7 @@ var sequelize;
 if (currentEnv === 'development') {
   sequelize = new Sequelize('postgres://localhost/blackmirror');
 } else {
-  sequelize = new Sequelize(`postgres://${config.username}:${config.password}@${config.host}:${config.port}/${config.database}`);
+  sequelize = new Sequelize(`process.env.DATABASE_URL`);
 }
 
 fs.readdirSync(__dirname).filter(function (file) {
