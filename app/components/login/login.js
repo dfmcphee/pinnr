@@ -52,29 +52,27 @@ export default class Login extends React.Component {
   render() {
     return (
       <Container text>
-        <div>
-          <Header as="h1">Login</Header>
-          <Form size="large">
-            <Form.Group widths='equal'>
-              <Form.Field>
-                <label>Username</label>
-                <Input required value={this.state.title}
-                  onChange={(event) => this.changeUsername(event)} />
-              </Form.Field>
-              <Form.Field>
-                <label>Password</label>
-                <Input type="password" required value={this.state.password}
-                    onChange={(event) => this.changePassword(event)} />
-              </Form.Field>
-            </Form.Group>
-            <Button primary size="large" type="button" floated="right" onClick={() => this.login()}>
-              Login
-            </Button>
-          </Form>
-          <p>
-            Need an account? <Link to="/signup">Signup</Link>
-          </p>
-        </div>
+        <Header as="h1">Login</Header>
+        <Form size="large">
+          <Form.Group widths='equal'>
+            <Form.Field>
+              <label>Username</label>
+              <Input required value={this.state.title}
+                onChange={(event) => this.changeUsername(event)} />
+            </Form.Field>
+            <Form.Field>
+              <label>Password</label>
+              <Input type="password" required value={this.state.password}
+                  onChange={(event) => this.changePassword(event)} />
+            </Form.Field>
+          </Form.Group>
+          <Button primary size="large" type="button" floated="right" onClick={() => this.login()}>
+            Login
+          </Button>
+        </Form>
+        <p>
+          Need an account? <Link to="/signup">Signup</Link>
+        </p>
       </Container>
     );
   }
